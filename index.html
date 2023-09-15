@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+     <link rel="icon" href="./img/c-solid.svg">
+     <link rel="stylesheet" href="./css/all.min.css">
+     <link rel="stylesheet" href="./css/main.css">
+     <title>Crud</title>
+</head>
+
+<body class="dark">
+     <div class="crud">
+          <header>
+               <h1>Crud Project</h1>
+               <p class="line"></p>
+               <div class="icons">
+                    <i class="fa-solid fa-sun"></i>
+               </div>
+          </header>
+          <section class="form">
+               <div class="container">
+                    <div class="form-group">
+                         <input class="form-control" id="title" type="text" placeholder="Product Title">
+                         <span class="invalid_span">please enter valid name</span>
+                    </div>
+                    <div class="row" id="allCost">
+                         <div class="item">
+                              <div class="form-group">
+                                   <input onkeyup="checkNumber(this.value)" class="form-control inputNumbers" type="number" placeholder="Price">
+                                   <span class="invalid_span">please enter valid number</span>
+                              </div>
+                         </div>
+                         <div class="item">
+                              <div class="form-group">
+                                   <input onkeyup="checkNumber(this.value)" class="form-control inputNumbers" type="number" placeholder="Tax %">
+                                   <span class="invalid_span">please enter valid number</span>
+                              </div>
+                         </div>
+                         <div class="item">
+                              <div class="form-group">
+                                   <input onkeyup="checkNumber(this.value)" class="form-control inputNumbers" type="number" placeholder="Discount">
+                                   <span class="invalid_span">please enter valid number</span>
+                              </div>
+                         </div>
+                         <div class="item">
+                              <div class="form-group">
+                                   <input class="form-control" id="total" type="number" placeholder="Total" readonly>
+                                   <span class="invalid_span"> </span>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="form-group">
+                         <input onkeyup="checkNumber(this.value)" class="form-control inputNumbers" id="count" type="number" placeholder="Count">
+                         <span class="invalid_span">please enter valid number at least 1</span>
+                    </div>
+                    <div class="form-group">
+                         <input class="form-control" id="category" type="text" placeholder="Category">
+                         <span class="invalid_span">please enter valid category</span>
+                    </div>
+                    <div class="form-group">
+                         <div class="btns">
+                              <button onkeyup="renderData ()" class="btn"> Add new product</button>
+                              <button class="btn" id="clearAllBtn"> Delete All Products <span id="countBtn">
+                                   </span></button>
+                         </div>
+                    </div>
+               </div>
+          </section>
+          <section class="data">
+               <div class="table-container">
+                    <table class="table">
+                         <thead>
+                              <tr>
+                                   <th >ID</th>
+                                   <th>Title</th>
+                                   <th>Price</th>
+                                   <th>Tax %</th>
+                                   <th>Discount</th>
+                                   <th>Total</th>
+                                   <th>Category</th>
+                                   <th>Edit</th>
+                                   <th>Delete</th>
+                              </tr>
+                         </thead>
+                         <tbody id="tbody">
+                         </tbody>
+                         
+                    </table>
+               </div>
+          </section>
+          
+          <footer>
+               <h1> Created by : <span>Mo'men Sayed </span> </h1>
+               <h2> Social Links : <a href="https://github.com/momen-sayed0"> <i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.facebook.com/momen.sayed0"> <i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/in/momen-sayed0/"> <i class="fa-brands fa-linkedin"></i></a> </h2>
+          </footer>
+     </div>
+
+     <script src="./js/main.js"></script>
+</body>
+
+</html>
