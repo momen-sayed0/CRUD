@@ -14,6 +14,7 @@ let span = document.querySelectorAll("span");
 let products;
 let mood = "create";
 let globalID;
+
 // change theme color
 let changeTheme = () => {
      if (divLight.classList.contains("dark")) {
@@ -24,38 +25,13 @@ let changeTheme = () => {
           icon.classList.replace("fa-moon", "fa-sun");
      }
 }
-
 icon.addEventListener('click', changeTheme);
 
+// localStorage
 if (localStorage.products != null) {
      products = JSON.parse(localStorage.products);
 } else {
      products = [];
-}
-
-// validation error for inputs with invalid value
-let validationError = false;
-
-for (let i = 0; i < allInputs.length; i++) {
-     if (allInputs[i].value === '') {
-          validationError = false;
-     } else{
-          validationError = true;
-     }
-
-     allInputs[i].addEventListener("keyup", () => {
-          if (allInputs[i].value === '') {
-               allInputs[i].classList.add("invalid");
-               span[i].classList.remove("invalid_span");
-               validationError = false;
-
-          } else {
-               validationError = true;
-               allInputs[i].classList.remove("invalid");
-               span[i].classList.add("invalid_span");
-          }
-     
-     });
 }
 
 // Calculate the total cost
@@ -70,42 +46,8 @@ let getTotalCost = () => {
 for (let i = 0; i < allCost.length; i++) {
      allCost[i].addEventListener("keyup", getTotalCost);
 }
-// createObject
-let createObject = () => {
-     let newProductObject = {
-          title: title.value,
-          price: allCost[0].value,
-          tax: allCost[1].value,
-          discount: allCost[2].value,
-          total: allCost[3].value,
-          count: count.value,
-          category: category.value
-     }
 
-     if (validationError == true) {
-          if (mood === 'create') {
-               if (count.value > 1) {
-                    for (let i = 0; i < count.value; i++) {
-                         products.push(newProductObject);
-                    }
-               } else {
-                    products.push(newProductObject);
-               }
-          } else {
-               products[globalID] = newProductObject;
-               mood = 'create';
-               createBtn.classList.replace('btn-update', 'btn');
-               createBtn.innerHTML = "Add new product";
-               count.classList.remove('none');
-          }
-          console.log(products);
-          clearInputs();
-          renderData();
-          localStorage.setItem("products", JSON.stringify(products));
-     }
-}
-
-//clearInputs
+// clearInputs after input data
 let clearInputs = () => {
      title.value = '';
      allCost[0].value = '';
@@ -115,6 +57,14 @@ let clearInputs = () => {
      count.value = '';
      category.value = '';
 }
+
+// delete all products
+let clearAll = () => {
+     localStorage.clear();
+     products.splice(0);
+     renderData();
+}
+
 // renderData
 let renderData = () => {
      let table = '';
@@ -140,9 +90,9 @@ let renderData = () => {
           countBtn.innerHTML = products.length;
      }
 }
-
 renderData();
 
+//  Edit product
 let updateProduct = (i) => {
      mood = "update";
      globalID = i;
@@ -157,35 +107,134 @@ let updateProduct = (i) => {
      createBtn.classList.replace('btn', 'btn-update');
 }
 
+
+//  delete one product
 let deleteProduct = (i) => {
      products.splice(i, 1);
      localStorage.products = JSON.stringify(products);
      renderData();
-
-
-}
-let clearAll = () => {
-     localStorage.clear();
-     products.splice(0);
-     renderData();
 }
 
-// check if price is positive number
-function checkNumber(value){
-     if (value <= 0){
-          createBtn.style.display = 'none';
-     }else{
-          createBtn.style.display = 'block';
+
+// createObject
+let createObject = () => {
+     let newProductObject = {
+          title: title.value,
+          price: allCost[0].value,
+          tax: allCost[1].value,
+          discount: allCost[2].value,
+          total: allCost[3].value,
+          count: count.value,
+          category: category.value
      }
 
+     if (allInputs[0].value == "" && allInputs[1].value == "" && allInputs[2].value == "" && allInputs[3].value == "" && allInputs[5].value == "" && allInputs[6].value == "") {
+          allInputs[0].classList.add("invalid");
+          allInputs[1].classList.add("invalid");
+          allInputs[2].classList.add("invalid");
+          allInputs[3].classList.add("invalid");
+          allInputs[5].classList.add("invalid");
+          allInputs[6].classList.add("invalid");
+     } else if (allInputs[0].value == "") {
+          allInputs[0].classList.add("invalid");
+          alert("Please enter valid product name");
+     } else if (allInputs[1].value == "") {
+          allInputs[1].classList.add("invalid");
+          alert("Please enter valid price number");
+     } else if (allInputs[2].value == "") {
+          allInputs[2].classList.add("invalid");
+          alert("Please enter valid tax number");
+     } else if (allInputs[3].value == "") {
+          allInputs[3].classList.add("invalid");
+          alert("Please enter valid discount number");
+     } else if (allInputs[5].value == "") {
+          allInputs[5].classList.add("invalid");
+          alert("Please enter valid number at least 1");
+     } else if (allInputs[6].value == "") {
+          allInputs[6].classList.add("invalid");
+          alert("Please enter valid category name");
+     } else {
+          if (validationError == true) {
+               if (mood === 'create') {
+                    if (count.value > 1) {
+                         for (let i = 0; i < count.value; i++) {
+                              products.push(newProductObject);
+                         }
+                    } else {
+                         products.push(newProductObject);
+                    }
+               } else {
+                    products[globalID] = newProductObject;
+                    mood = 'create';
+                    createBtn.classList.replace('btn-update', 'btn');
+                    createBtn.innerHTML = "Add new product";
+                    count.classList.remove('none');
+               }
+               console.log(products);
+               clearInputs();
+               renderData();
+               localStorage.setItem("products", JSON.stringify(products));
+          }
+     }
 }
+
+
+let validationError = false;
+//  Check if all inputs aren't empty string
+for (let i = 0; i < allInputs.length; i++) {
+     if (allInputs[i].value === '') {
+          validationError = false;
+     } else {
+          validationError = true;
+     }
+
+     allInputs[i].addEventListener("keyup", () => {
+          if (allInputs[i].value === '' || allInputs[i].value <= 0) {
+               allInputs[i].classList.add("invalid");
+               span[i].classList.remove("invalid_span");
+               validationError = false;
+
+          } else {
+               validationError = true;
+               allInputs[i].classList.remove("invalid");
+               span[i].classList.add("invalid_span");
+          }
+
+     });
+}
+
+// Check if title isn't number
+allInputs[0].addEventListener("keyup", () => {
+     if (title.value >= 0) {
+          allInputs[0].classList.add("invalid");
+          span[0].classList.remove("invalid_span");
+          validationError = false;
+     }
+});
+// Check if category isn't number
+allInputs[6].addEventListener("keyup", () => {
+     if (category.value >= 0) {
+          allInputs[6].classList.add("invalid");
+          span[6].classList.remove("invalid_span");
+          validationError = false;
+     }
+});
+
+// createBtn.addEventListener("click", () => {
+if (allInputs.value === '') {
+     // validationError = false;
+     alert('Please enter a');
+}
+// });
+
 
 createBtn.addEventListener("click", createObject);
 clearAllBtn.addEventListener("click", clearAll);
 
-
-// createBtn.addEventListener("keyup", (event) => {
-//      if (event.key == "Enter") {
-//           renderData ();
-//           }
-// });
+for (let i = 0; i < allInputs.length; i++) {
+allInputs[i].addEventListener('keyup', (event) => {
+     if (event.key === "Enter") {
+          createObject();
+     }
+});
+};
