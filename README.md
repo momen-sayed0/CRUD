@@ -29,7 +29,7 @@ A basic CRUD (Create, Read, Update, Delete) application built using vanilla Java
 
 ## 📷 Screenshot
 
-![CRUD v1 Screenshot](./screenshot.png)
+![CRUD v1 Screenshot](./screenshots/screenshot.png)
 
 ---
 
